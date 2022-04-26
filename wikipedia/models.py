@@ -1,6 +1,7 @@
 from pyexpat import model
 from django.db import models
 from wikipediaapi import Wikipedia
+import pysbd
 
 # Create your models here.
 class Language(models.Model):
@@ -31,6 +32,11 @@ class Project(models.Model):
     # Define the project model fields 
     article_title = models.CharField(max_length=100)
     target_language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    is_tokenized = models.BooleanField(default=False)
+
+    # Change the display to the article title
+    def __str__(self):
+        return self.article_title
 
 
     def get_article_summary(self): 
@@ -48,9 +54,7 @@ class Project(models.Model):
         if page_details.exists():
             # Get the summary of the article
             intro = page_details.summary
-            return intro
-
-            print(intro) # testing 
+            return intro 
         else: 
             return False
 
@@ -66,4 +70,26 @@ class Sentence(models.Model):
     # Define the sentence model fields 
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     original_sentence = models.CharField(max_length=5000)
-    translated_sentence = models.CharField(max_length=5000)
+    translated_sentence = models.CharField(max_length=5000, default="No Translation Found")
+
+    @staticmethod
+    def tokenize_intro_text(project, text): 
+        """Function to tokenize the input text and save it into the Sentence model. 
+
+            Args:
+                text: The text to be tokenized. 
+
+            Returns:
+                tokens: The list of tokens in the text. 
+            """
+
+        # Tokenize the text and create a sentence for it 
+        seg = pysbd.Segmenter(language="en", clean=True)
+        tokenized_sentences = seg.segment(text)
+
+        # Save the tokenized sentences into the Sentence model
+        for sentence in tokenized_sentences:
+            sentence_obj = Sentence(project_id=project.id, original_sentence=sentence)
+            sentence_obj.save()
+
+        return tokenized_sentences
