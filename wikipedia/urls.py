@@ -4,4 +4,5 @@ from . import views
 # Define routes for all the URL Paths
 urlpatterns = [
     path('project', views.project_input_view, name='main'),
+    path('translation', views.translation_view, name='translation'),
 ]

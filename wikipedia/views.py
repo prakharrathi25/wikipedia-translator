@@ -33,3 +33,42 @@ def project_input_view(request):
     # Render the form on the input page
     return render(request, 'input.html', {'form': form})
 
+
+def translation_view(request): 
+    """View which deals with collecting the summary and the translated text from the user
+
+    Args:
+        request: request object
+
+    Returns:
+        Renders the page to be displayed
+    """
+
+    # Handle the get request 
+    if request.method == 'GET':
+
+        # Get the project id from the URL
+        project_id = request.GET.get('project_id')
+
+        # Get the project details from the database
+        project = Project.objects.get(id=project_id)
+
+        # Get the article title and the language of the project 
+        title = project.article_title
+        language = project.target_language
+
+        # Collect the data about the project from the wikipedia API
+        article_intro = project.get_article_summary()
+
+        # if the article exists
+        if article_intro: 
+
+            # Render the translation page
+            return render(request, 'translation.html', {'project': project,
+                                                        'success': True,
+                                                        'article_intro': article_intro})
+
+        else: 
+            # Render the error page
+            return render(request, 'translation.html', {'project': project, 
+                                                        'success': False}) 
