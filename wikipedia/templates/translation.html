@@ -19,7 +19,46 @@
 
     <h2>The summary of the article found on Wikipedia is: </h2>
     <p> {{article_intro}} </p>
-     
+    
+    <hr>
+
+    <!-- This is where the translated entries will be added -->
+    <h2 style="text-align: center;">Enter Translations</h2>
+    <h4>Target Language: <u>{{ project.target_language }}</u></h4>
+
+    <!-- Table to Display the original sentence and take the input of the translation -->
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Original Sentence</th>
+            <th scope="col">Translation</th>
+          </tr>
+        </thead>
+        <form class="form-control" action="" method="post">
+            {% csrf_token %}
+            <tbody>
+
+                {% for sentence in sentences %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ sentence.original_sentence }}</td>
+                    <td><input type="text" name="translated" value="{{ sentence.translated_sentence }}" /></td>
+                </tr>
+                {% endfor %}
+
+                <tr>
+                    <td colspan="2">
+                        <br>
+                        <p style="text-align: center;">
+                            <input class="btn btn-secondary" type="submit" value="Save Translations"/>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </form>
+      </table>
+
     {% else %}
 
     <h2>No results found for the entry: {{ project.article_title }}</h2>
@@ -28,11 +67,20 @@
 
     {% endif %}
 
+
+    <!-- Button to return to Home page -->
+    <p style="text-align: center;">
+        <a href="{% url 'main' %}" class="btn btn-primary">Return to Home Page</a>
+    </p>
+
+
+
     <!-- Bootstrap scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 
+    
 
 </body>
 

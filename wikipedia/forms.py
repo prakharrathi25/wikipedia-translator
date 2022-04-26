@@ -12,6 +12,6 @@ class ProjectInputForm(forms.ModelForm):
     
     class Meta: 
         model = Project
-        fields = '__all__'
+        fields = ('article_title', 'target_language')
     
 

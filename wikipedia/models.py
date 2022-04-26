@@ -73,7 +73,24 @@ class Sentence(models.Model):
     translated_sentence = models.CharField(max_length=5000, default="No Translation Found")
 
     @staticmethod
-    def tokenize_intro_text(project, text): 
+    def get_sentences(project_id): 
+
+        """Function to get the sentences associated with a project. 
+
+        Returns:
+            result (list): List of sentences associated with a project
+        """
+
+        result = []
+        sentences = Sentence.objects.filter(project_id=project_id)
+        for sentence in sentences: 
+            result.append(sentence.original_sentence)
+        
+        return result
+
+
+    @staticmethod
+    def tokenize_intro_text(text, project): 
         """Function to tokenize the input text and save it into the Sentence model. 
 
             Args:
@@ -89,7 +106,7 @@ class Sentence(models.Model):
 
         # Save the tokenized sentences into the Sentence model
         for sentence in tokenized_sentences:
-            sentence_obj = Sentence(project_id=project.id, original_sentence=sentence)
+            sentence_obj = Sentence(project_id=project, original_sentence=sentence)
             sentence_obj.save()
 
         return tokenized_sentences

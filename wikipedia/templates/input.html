@@ -13,9 +13,10 @@
     <p style="text-align: center;">
        <strong> Input the article title and the target language you want to translate it into from the dropdown. </strong>
     </p>
-    {% for message in messages %}
+    
+    <!-- {% for message in messages %}
         <div class="alert alert-success">{{ message }}</div>
-    {% endfor %}
+    {% endfor %} -->
     <form class="form-control" action="" method="post">
     {% csrf_token %}
     <table>
