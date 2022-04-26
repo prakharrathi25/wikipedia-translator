@@ -1,7 +1,7 @@
 from django.urls import path, include
-from .views import *
+from . import views
 
 # Define routes for all the URL Paths
 urlpatterns = [
-    path('project', project_input_view(), name='main'),
+    path('project', views.project_input_view, name='main'),
 ]
