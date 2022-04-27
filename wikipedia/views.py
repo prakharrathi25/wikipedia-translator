@@ -28,7 +28,6 @@ def project_input_view(request):
 
             # Save the form 
             project_form.save()
-            messages.success(request, 'Project added successfully! Fetching the article data from Wikipedia...')
             return redirect('/translation/' + str(project_form.instance.id)+'/')
 
     # Render the form on the input page

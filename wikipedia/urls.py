@@ -3,6 +3,6 @@ from . import views
 
 # Define routes for all the URL Paths
 urlpatterns = [
-    path('project/', views.project_input_view, name='main'),
+    path('', views.project_input_view, name='main'),
     path('translation/<str:pk>/', views.translation_view, name='translation'),
 ]
