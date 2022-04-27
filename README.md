@@ -27,9 +27,12 @@ Check it out [here](http://prakharrathi25.pythonanywhere.com/)
 3. The user can translate the article content into other languages.
 4. The user can save the translated article content in the translation page.
 
+**Note:** I have also added Django groups with two roles - managers and annotators with differential privacy for both. 
+
 ## Application Demo
 
-https://user-images.githubusercontent.com/38958532/165505012-c7a00c96-4d62-4c96-8b2f-36e2a592ad8b.mp4
+
+https://user-images.githubusercontent.com/38958532/165589649-a9e1516a-b073-4ba4-be1d-9698fa1aa19e.mp4
 
 
 ## Application Testing Credentials 
