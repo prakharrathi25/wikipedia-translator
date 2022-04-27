@@ -4,7 +4,7 @@
 
 This application allows a user to enter an article title on Wikipedia. The application collects article data from Wikipedia and lets the users translate the article content into other languages. The application is built using Django and HTML Templates. The application is hosted on Python Anywhere. 
 
-Check it out [here]()! 
+Check it out [here](http://prakharrathi25.pythonanywhere.com/)
 
 ##  How to Run Locally 
 
@@ -27,10 +27,4 @@ Check it out [here]()!
 3. The user can translate the article content into other languages.
 4. The user can save the translated article content in the translation page.
 
-## Application Demo 
-
-https://user-images.githubusercontent.com/38958532/165488564-f14a4ebb-efd5-436c-973e-d69a059d6d5f.mp4
-
-
-
-
+## Application Demo
