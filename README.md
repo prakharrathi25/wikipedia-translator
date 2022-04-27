@@ -32,3 +32,18 @@ Check it out [here](http://prakharrathi25.pythonanywhere.com/)
 https://user-images.githubusercontent.com/38958532/165505012-c7a00c96-4d62-4c96-8b2f-36e2a592ad8b.mp4
 
 
+## Application Testing Credentials 
+
+You can use these credentials to test the application locally. 
+
+**Superadmin credentials** 
+username - admin 
+password - admin
+
+**Manager Credentials**
+username - manager
+password - not-man-123
+
+**Annotator Credentials** 
+username - annotator 
+password - not-annot-123

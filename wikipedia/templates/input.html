@@ -8,7 +8,13 @@
 </head>
 
 <body>
-    
+
+    <div class="container">
+    <!-- Logout button -->
+    <br>
+    <p style="text-align: right;"><a href="{% url 'logout' %}" class="btn btn-secondary"> Log out? </a></p>
+    <hr>
+
     <h2 style="text-align: center;">Project Input Page</h2>
     <p style="text-align: center;">
        <strong> Input the article title and the target language you want to translate it into from the dropdown. </strong>
@@ -29,6 +35,8 @@
         </tr>
     </table>
     </form>
+
+    </div>
 
     <!-- Bootstrap scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

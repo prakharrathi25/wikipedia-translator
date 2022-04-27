@@ -8,6 +8,11 @@
 </head>
 
 <body>
+
+    <!-- Logout button -->
+    <br>
+    <p style="text-align: right;"><a href="{% url 'logout' %}" class="btn btn-secondary"> Log out? </a></p>
+    <hr>
     
     <h2 style="text-align: center;">Article Results Page</h2>
 
@@ -49,7 +54,13 @@
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td style="width: 50%;">{{ sentence.original_sentence }}</td>
-                    <td style="width: 50%;"><textarea style="width:100%" placeholder="{{ sentence.translated_sentence }}" name="translated-{{sentence.id}}" value="{{ sentence.translated_sentence }}"></textarea></td>
+
+                    {% if sentence.translated_sentence %}
+                        <td style="width: 50%;"><textarea style="width:100%" name="translated-{{sentence.id}}" >{{ sentence.translated_sentence }}</textarea></td>
+                    {% else %}
+                        <td style="width: 50%;"><textarea style="width:100%" placeholder="No translation found (Please add a translated sentence)" name="translated-{{sentence.id}}" ></textarea></td>
+                    {% endif %}
+
                 </tr>
                 {% endfor %}
 
@@ -77,7 +88,11 @@
     <!-- Button to return to Home page -->
     <hr>
     <p style="text-align: center;">
-        <a href="{% url 'main' %}" class="btn btn-primary">Return to Home Page</a>
+        {% if manager %}
+        <a href="{% url 'manager_dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+        {% else %}
+        <a href="{% url 'annotator_dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+        {% endif %}
     </p>
 
 

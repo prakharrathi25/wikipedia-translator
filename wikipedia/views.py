@@ -1,9 +1,16 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 from .forms import * 
 from .models import * 
+from .decorators import *
 
 # Create your views here.
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Manager', 'admin'])
 def project_input_view(request):
     """View which holds the form to enter the details of the article and the target language.
 
@@ -28,12 +35,14 @@ def project_input_view(request):
 
             # Save the form 
             project_form.save()
-            return redirect('/translation/' + str(project_form.instance.id)+'/')
+            # return redirect('/translation/' + str(project_form.instance.id)+'/')
+            return redirect('manager/')
 
     # Render the form on the input page
     return render(request, 'input.html', {'form': form})
 
-
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Manager', 'Annotator'])
 def translation_view(request, pk): 
     """View which deals with collecting the summary and the translated text from the user
 
@@ -64,17 +73,24 @@ def translation_view(request, pk):
 
         # if the article exists
         if article_intro: 
+            
+            # check if the current user is a manager 
+            is_manager = False
+            if request.user.groups.filter(name='Manager').exists():
+                is_manager = True
 
             # Render the translation page
             return render(request, 'translation.html', {'project': project,
                                                         'success': True,
                                                         'article_intro': article_intro,
-                                                        'sentences': result})
+                                                        'sentences': result, 
+                                                        'manager': is_manager})
 
         else: 
             # Render the error page
             return render(request, 'translation.html', {'project': project, 
-                                                        'success': False}) 
+                                                        'success': False, 
+                                                        'manager': is_manager})
 
     # Handle the post request
     if request.method == 'POST':
@@ -103,3 +119,74 @@ def translation_view(request, pk):
     
     else: 
         return redirect('/translation/' + str(pk)+'/')
+
+@unauthenticated_user
+def login_user(request): 
+
+    if request.method == 'POST': 
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+
+            # Check the user group and redirect accordingly 
+            if user.groups.filter(name='Manager').exists():
+                return redirect('manager_dashboard')
+            elif user.groups.filter(name='Annotator').exists():
+                return redirect('annotator_dashboard')
+            else:
+                return redirect('login')
+        
+        else: 
+            # Return the invalid users
+            messages.error(request, "Invalid username or password!")
+            return redirect('login')
+
+    return render(request, 'login.html', {})
+
+def logout_user(request): 
+    
+    # Log out the user and redirect to the log in page
+    logout(request)
+
+    return redirect('login')
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Manager'])
+def manager_view(request):
+    """View allow the user to view the projects and the annotators.
+
+    Args:
+        request (_type_): _description_
+
+    Returns: 
+    """
+
+    # Collect the data about the projects from the database
+    projects = Project.objects.all()
+
+    # Get the list of annotators
+    annotators = User.objects.filter(groups__name='Annotator')
+
+    return render(request, 'manager-dashboard.html', {'projects': projects, 
+                                                      'annotators': annotators})
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['Annotator'])
+def annot_dashboard_view(request):
+    """View that allows the annotator to view the sentences that they can annotate.
+
+    Args:
+        request (_type_): _description_
+
+    Returns: 
+    """
+
+    # Collect the projects that an annotator can annotate
+    current_user = request.user
+    user_id = current_user.id
+    annotator_projects = Project.objects.filter(annotator_id=user_id)
+
+    return render(request, 'annot-dashboard.html', {'annotator_projects': annotator_projects})

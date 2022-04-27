@@ -1,9 +1,9 @@
 from pyexpat import model
+from django.contrib.auth.models import User
 from django.db import models
 from wikipediaapi import Wikipedia
 import pysbd
 
-# Create your models here.
 class Language(models.Model):
     """ This class holds the details of the allowed languages in the application.
 
@@ -33,6 +33,7 @@ class Project(models.Model):
     article_title = models.CharField(max_length=100)
     target_language = models.ForeignKey(Language, on_delete=models.CASCADE)
     is_tokenized = models.BooleanField(default=False)
+    annotator = models.ForeignKey(User, related_name='annotator_id', null=True, on_delete=models.CASCADE,)
 
     # Change the display to the article title
     def __str__(self):
@@ -70,7 +71,7 @@ class Sentence(models.Model):
     # Define the sentence model fields 
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     original_sentence = models.CharField(max_length=5000)
-    translated_sentence = models.CharField(max_length=5000, default="No Translation Found (Add your translation here)")
+    translated_sentence = models.CharField(max_length=5000, blank=True, null=True)
 
     @staticmethod
     def get_sentences(project_id): 
@@ -87,7 +88,6 @@ class Sentence(models.Model):
             result.append(sentence.original_sentence)
         
         return result
-
 
     @staticmethod
     def tokenize_intro_text(text, project): 
