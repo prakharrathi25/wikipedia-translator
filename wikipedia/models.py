@@ -36,7 +36,7 @@ class Project(models.Model):
 
     # Change the display to the article title
     def __str__(self):
-        return self.article_title
+        return self.article_title + '-' + str(self.id)
 
 
     def get_article_summary(self): 
@@ -70,7 +70,7 @@ class Sentence(models.Model):
     # Define the sentence model fields 
     project_id = models.ForeignKey(Project, on_delete=models.CASCADE)
     original_sentence = models.CharField(max_length=5000)
-    translated_sentence = models.CharField(max_length=5000, default="No Translation Found")
+    translated_sentence = models.CharField(max_length=5000, default="No Translation Found (Add your translation here)")
 
     @staticmethod
     def get_sentences(project_id): 

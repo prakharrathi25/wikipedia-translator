@@ -26,8 +26,12 @@
     <h2 style="text-align: center;">Enter Translations</h2>
     <h4>Target Language: <u>{{ project.target_language }}</u></h4>
 
+    {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
     <!-- Table to Display the original sentence and take the input of the translation -->
-    <table class="table">
+    <table style="display: relative;" class="table">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
@@ -35,22 +39,22 @@
             <th scope="col">Translation</th>
           </tr>
         </thead>
-        <form class="form-control" action="" method="post">
+        <form name="translated-text-form" class="form-control" action="" method="post">
             {% csrf_token %}
             <tbody>
 
                 {% for sentence in sentences %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ sentence.original_sentence }}</td>
-                    <td><input type="text" name="translated" value="{{ sentence.translated_sentence }}" /></td>
+                    <td style="width: 50%;">{{ sentence.original_sentence }}</td>
+                    <td style="width: 50%;"><textarea style="width:100%" placeholder="{{ sentence.translated_sentence }}" name="translated-{{sentence.id}}" value="{{ sentence.translated_sentence }}"></textarea></td>
                 </tr>
                 {% endfor %}
 
                 <tr>
-                    <td colspan="2">
+                    <td style="display: absolute; left: auto; right: auto; bottom: 10px;" colspan="2">
                         <br>
-                        <p style="text-align: center;">
+                        <p style="text-align: right;">
                             <input class="btn btn-secondary" type="submit" value="Save Translations"/>
                         </p>
                     </td>

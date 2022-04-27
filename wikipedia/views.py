@@ -29,13 +29,13 @@ def project_input_view(request):
             # Save the form 
             project_form.save()
             messages.success(request, 'Project added successfully! Fetching the article data from Wikipedia...')
-            return redirect('/translation?project_id=' + str(project_form.instance.id))
+            return redirect('/translation/' + str(project_form.instance.id)+'/')
 
     # Render the form on the input page
     return render(request, 'input.html', {'form': form})
 
 
-def translation_view(request): 
+def translation_view(request, pk): 
     """View which deals with collecting the summary and the translated text from the user
 
     Args:
@@ -46,13 +46,10 @@ def translation_view(request):
     """
 
     # Handle the get request 
-    if request.method == 'GET':
-
-        # Get the project id from the URL
-        project_id = request.GET.get('project_id')
+    if request.method == 'GET': 
 
         # Get the project details from the database
-        project = Project.objects.get(id=project_id)
+        project = Project.objects.get(id=pk)
 
         # Collect the data about the project from the wikipedia API
         article_intro = project.get_article_summary()
@@ -83,4 +80,27 @@ def translation_view(request):
     # Handle the post request
     if request.method == 'POST':
 
-        pass 
+        # Get the project details from the database
+        all_sentence_data = Sentence.objects.filter(project_id=pk)
+        sentence_ids = [sentence.id for sentence in all_sentence_data]
+
+        # Iterate through all the input fields in the form 
+        for i in range(len(sentence_ids)): 
+            
+            # Get the translated text from the form
+            try: 
+                translated_text = request.POST[f"translated-{str(sentence_ids[i])}"]
+
+                if translated_text: 
+                    
+                    # Update the Sentence object with the translated text
+                    Sentence.objects.filter(id=sentence_ids[i]).update(translated_sentence=translated_text)
+            
+            except: 
+                continue
+
+        messages.success(request, "Your translations have been saved successfully!")
+        return redirect('/translation/' + str(pk)+'/')
+    
+    else: 
+        return redirect('/translation/' + str(pk)+'/')
