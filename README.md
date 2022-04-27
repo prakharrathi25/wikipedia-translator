@@ -28,3 +28,7 @@ Check it out [here](http://prakharrathi25.pythonanywhere.com/)
 4. The user can save the translated article content in the translation page.
 
 ## Application Demo
+
+https://user-images.githubusercontent.com/38958532/165505012-c7a00c96-4d62-4c96-8b2f-36e2a592ad8b.mp4
+
+
