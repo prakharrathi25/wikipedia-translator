@@ -35,7 +35,7 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ project.article_title }}</td>
                     <td>{{ project.target_language }}</td>
-                    <td> <a href="{% url 'main' %}" class="btn btn-success">Annotate Project</a></td>
+                    <td> <a href="{% url 'translation' project.id %}" class="btn btn-success">Annotate Project</a></td>
                 </tr>
                 {% endfor %}
                 </tbody>

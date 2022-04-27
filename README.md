@@ -34,16 +34,16 @@ https://user-images.githubusercontent.com/38958532/165505012-c7a00c96-4d62-4c96-
 
 ## Application Testing Credentials 
 
-You can use these credentials to test the application locally. 
+You can use these credentials to test the application locally. Currently, I have not given the feature to create new users so you need to use the credentials of an existing user.
 
 **Superadmin credentials** 
-username - admin 
-password - admin
+- **username** - admin 
+- **password** - admin
 
 **Manager Credentials**
-username - manager
-password - not-man-123
+- **username** - manager
+- **password** - not-man-123
 
 **Annotator Credentials** 
-username - annotator 
-password - not-annot-123
+- **username** - annotator 
+- **password** - not-annot-123
