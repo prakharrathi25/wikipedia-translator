@@ -26,6 +26,8 @@
     <h2 style="text-align: center;">Enter Translations</h2>
     <h4>Target Language: <u>{{ project.target_language }}</u></h4>
 
+    <p>This is the section where you can enter the translations. The placeholder value shows the current translations. Users can add their own translations and then press on Save Translations.</p>
+
     {% for message in messages %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
