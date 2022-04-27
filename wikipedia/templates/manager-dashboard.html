@@ -57,11 +57,12 @@
             </p>
 
                 <form action="" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
                         <label for="project_id">Project ID</label>
                         <select class="form-control" id="project_id" name="project_id">
                             {% for project in projects %}
-                                <option value="{{ project.id }}">{{ project.id }}</option>
+                                <option name value="{{ project.id }}">{{ project.id }}</option>
                             {% endfor %}
                         </select>
                     </div>

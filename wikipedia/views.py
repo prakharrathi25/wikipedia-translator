@@ -164,6 +164,20 @@ def manager_view(request):
     Returns: 
     """
 
+    
+    # Handle form POST request
+    if request.method == 'POST': 
+
+        # Get the form data 
+        project_id = request.POST['project_id']
+        annotator_id = request.POST['annotator_id']
+
+        # Get annotator object 
+        new_annotator = User.objects.get(id=annotator_id)
+
+        # Set the annotator for a particular project 
+        Project.objects.filter(id=project_id).update(annotator=new_annotator)
+
     # Collect the data about the projects from the database
     projects = Project.objects.all()
 
@@ -172,6 +186,7 @@ def manager_view(request):
 
     return render(request, 'manager-dashboard.html', {'projects': projects, 
                                                       'annotators': annotators})
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['Annotator'])

@@ -32,7 +32,7 @@
                 <tbody>
                 {% for project in annotator_projects %}
                 <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
+                    <th scope="row">{{ project.id }}</th>
                     <td>{{ project.article_title }}</td>
                     <td>{{ project.target_language }}</td>
                     <td> <a href="{% url 'translation' project.id %}" class="btn btn-success">Annotate Project</a></td>
