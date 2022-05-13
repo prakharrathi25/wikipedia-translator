@@ -90,7 +90,7 @@ def translation_view(request, pk):
             # Render the error page
             return render(request, 'translation.html', {'project': project, 
                                                         'success': False, 
-                                                        'manager': is_manager})
+                                                        })
 
     # Handle the post request
     if request.method == 'POST':
