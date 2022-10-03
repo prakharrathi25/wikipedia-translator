@@ -50,3 +50,4 @@ You can use these credentials to test the application locally. Currently, I have
 **Annotator Credentials** 
 - **username** - annotator 
 - **password** - not-annot-123
+
